@@ -47,8 +47,8 @@ for seed in seed_list:
                     df = read_csv(filename, skiprows = 1, compression = 'gzip')
                     y_true = df.ix[:,1:2]
                     y_score = df.ix[:,2:3]
-	        x1 = concat([x1, y_true], axis = 0)
-	        x2 = concat([x2, y_score], axis = 0)
+	            x1 = concat([x1, y_true], axis = 0)
+	            x2 = concat([x2, y_score], axis = 0)
 
                 if metric == "fmax":
 	            dir_dict["%s_bag%i" % (dirname, bag)] = fmax_score(x1,x2)    	
