@@ -16,7 +16,7 @@ We will use in our example the diabetes dataset from the [UCI repository](https:
 The pipeline uses classification algorithms from [Weka](http://www.cs.waikato.ac.nz/ml/weka/arff.html) for base predictor generation. We use the terms *base predictor* and *model* interchangeably. The classification algorithms and their parameters are specified in the **classifiers.txt** file. The file contains all the classification algorithms used in our paper [[Stanescu and Pandey, 2017](extra/PSB_2017_ana.pdf)]. However, in this demo we will only be using five (to save time). The lines preceded by the comment marker # will be skipped and the corresponding algorithms will not be run. 
 
     cat > classifiers.txt << EOF
-    weka.classifiers.bayes.NaÔveBayes -D
+    weka.classifiers.bayes.Na√ØveBayes -D
     weka.classifiers.functions.Logistic -C -M 250
     #weka.classifiers.functions.MultilayerPerceptron -H o -D
     #weka.classifiers.functions.SGD -F 1
@@ -74,14 +74,14 @@ The **lens** pipeline is designed for multicore and distributed environments, su
 
 As specified in the **config.txt file**, the data is first divided into five folds (foldCount = 5) of independent training (60% of the entire dataset), validation (20%), and test (20%) splits for cross validation. Each training split is resampled with replacement two times (bags = 2) via a process called bagging ([Breiman1996]), resulting in ten (#classification algorithms * bags) base predictors. The validation set helps construct the CES/RL-based supervised ensembles. The test split will be used to assess the actual performance of the ensemble selection technique. All experiments will be repeated two times (seeds = 2), using different seeds for shuffling the original data (diabetes.arff). A visual description of the workflow can be seen [here](figures/Flowchart.png). For the **classifiers.txt** file in the example, the following folders will be created inside the project directory (*i.e.*, diabetes/): 
 
-	weka.classifiers.bayes.NaÔveBayes
+	weka.classifiers.bayes.Na√ØveBayes
 	weka.classifiers.functions.Logistic
 	weka.classifiers.functions.SimpleLogistic
 	weka.classifiers.meta.AdaBoostM1
 	weka.classifiers.trees.RandomForest
 
 	
-Each directory (named by a classification algorithm) contains .gzip files of each generated model, the predicted probabilities of the model on the validation set, and the predicted probabilities of the model on the test set (*e.g.*, NaÔveBayes-b\<i\>-f\<i\>-s\<i\>.model.gz, valid-b\<i\>-f\<i\>-s\<i\>.csv.gz, valid-b\<i\>-f\<i\>-s\<i\>.csv.gz, *etc.*, where b = bagged version, f = fold number, s = seed). Next, let's find out how the models perform (in terms of the performance metric from the **config.txt** file, metric = fmax):
+Each directory (named by a classification algorithm) contains .gzip files of each generated model, the predicted probabilities of the model on the validation set, and the predicted probabilities of the model on the test set (*e.g.*, Na√ØveBayes-b\<i\>-f\<i\>-s\<i\>.model.gz, valid-b\<i\>-f\<i\>-s\<i\>.csv.gz, valid-b\<i\>-f\<i\>-s\<i\>.csv.gz, *etc.*, where b = bagged version, f = fold number, s = seed). Next, let's find out how the models perform (in terms of the performance metric from the **config.txt** file, metric = fmax):
 
 	python step2_order.py absolute/(or/relative/)path/to/diabetes
 	
@@ -143,16 +143,16 @@ Next, step6 parses the results of all the experiments (BP, FE, CES, and the RL-b
 	
 These are the .csv files with all the results (max and ensemble dimension) obtained on the test sets, for the experiments run in the demo: 
 
-	BEST PREDICTOR VALUES	:: /diabetes/RESULTS/BP/RESULTS_BP_fmax.csv
-	FE VALUES		 		:: /diabetes/RESULTS/FE/RESULTS_FE_WA_fmax.csv
-	CES VALUES		 		:: /diabetes/RESULTS/CES/RESULTS_CES_WA_start-1_fmax.csv
-	CES DIMENSIONS		 	:: /diabetes/RESULTS/CES/RESULTS_CES_WA_start-1_fmax_dim.csv
-	RL VALUES		 		:: /diabetes/RESULTS/RL/RESULTS_RL_epsilon0.01_pre100_conv0_exit0_greedy_WA_Q_start-0_fmax.csv
-	CES DIMENSIONS		 	:: /diabetes/RESULTS/RL/RESULTS_RL_epsilon0.01_pre100_conv0_exit0_greedy_WA_Q_start-0_fmax_dim.csv
-	RL VALUES		 		:: /diabetes/RESULTS/RL/RESULTS_RL_epsilon0.01_pre100_conv0_exit0_pessimistic_WA_Q_start-0_fmax.csv
-	CES DIMENSIONS		 	:: /diabetes/RESULTS/RL/RESULTS_RL_epsilon0.01_pre100_conv0_exit0_pessimistic_WA_Q_start-0_fmax_dim.csv
-	RL VALUES		 		:: /diabetes/RESULTS/RL/RESULTS_RL_epsilon0.01_pre100_conv0_exit0_backtrack_WA_Q_start-0_fmax.csv
-	CES DIMENSIONS		 	:: /diabetes/RESULTS/RL/RESULTS_RL_epsilon0.01_pre100_conv0_exit0_backtrack_WA_Q_start-0_fmax_dim.csv
+	BEST PREDICTOR VALUES	 :: /diabetes/RESULTS/BP/RESULTS_BP_fmax.csv
+	FE VALUES		 :: /diabetes/RESULTS/FE/RESULTS_FE_WA_fmax.csv
+	CES VALUES		 :: /diabetes/RESULTS/CES/RESULTS_CES_WA_start-1_fmax.csv
+	CES DIMENSIONS		 :: /diabetes/RESULTS/CES/RESULTS_CES_WA_start-1_fmax_dim.csv
+	RL VALUES		 :: /diabetes/RESULTS/RL/RESULTS_RL_epsilon0.01_pre100_conv0_exit0_greedy_WA_Q_start-0_fmax.csv
+	CES DIMENSIONS		 :: /diabetes/RESULTS/RL/RESULTS_RL_epsilon0.01_pre100_conv0_exit0_greedy_WA_Q_start-0_fmax_dim.csv
+	RL VALUES		 :: /diabetes/RESULTS/RL/RESULTS_RL_epsilon0.01_pre100_conv0_exit0_pessimistic_WA_Q_start-0_fmax.csv
+	CES DIMENSIONS		 :: /diabetes/RESULTS/RL/RESULTS_RL_epsilon0.01_pre100_conv0_exit0_pessimistic_WA_Q_start-0_fmax_dim.csv
+	RL VALUES		 :: /diabetes/RESULTS/RL/RESULTS_RL_epsilon0.01_pre100_conv0_exit0_backtrack_WA_Q_start-0_fmax.csv
+	CES DIMENSIONS		 :: /diabetes/RESULTS/RL/RESULTS_RL_epsilon0.01_pre100_conv0_exit0_backtrack_WA_Q_start-0_fmax_dim.csv
 
 For example, the CES results files show the performance values (in terms of fmax) and the sizes (averaged over the folds) of all ensembles, for each repetition/seed:
 
